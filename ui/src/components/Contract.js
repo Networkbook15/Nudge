@@ -1,6 +1,8 @@
 import React from "react";
 import _ from 'lodash';
 
+import ContractTable from './contract/contract_table';
+import ContractFunctions from './contract/contract_functions';
 
 const willRinkebyAccount1 = "0xdC0B7b902192AACDd56a52221cC8A146E8da2f54";
 const willRinkebyAccount2 = "0x477B431C3B36331050c32712535034F7085E56a1";
@@ -266,8 +268,8 @@ const nudgeABI = [
 	}
 ]
 
-const RINKEBY_CONTRACT_FACTORY_ADDRESS = '0x81DA0C7e967FD92aC6ff0f266BA60Ae4EBE69ea2';
-const CONTRACT_ADDRESS = "0x580fc9e7c3c3981c9257f7dc33016cdbd6d35ead";
+const RINKEBY_CONTRACT_FACTORY_ADDRESS = '0xF8CEfACe50d6Df6d6e37Bb0E8Fbfda8B71f75B35';
+const CONTRACT_ADDRESS = "0xb4d07ab520c3b18496d3c267c0fd62a8870917a0";
 
 export default class Contract extends React.Component {
   constructor(props){
