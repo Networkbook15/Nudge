@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class Community extends React.Component {
+export default class CommunityPage extends React.Component {
 
     render() {
         return (

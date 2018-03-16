@@ -1,11 +1,11 @@
 import React from "react";
 
-export default class MyCommitments extends React.Component {
+export default class ModeratePage extends React.Component {
 
     render() {
         return (
             <div className="container">
-                <h1>My Commitments</h1>
+                <h1>Judging Panel</h1>
             </div>
         );
     }
