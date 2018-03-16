@@ -45,7 +45,7 @@ class Header extends React.Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-          <a href="/">Nudge</a>
+          <a href="/"><img src="http://www.iconj.com/ico/s/w/swd92ivv5f.ico"/></a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
