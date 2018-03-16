@@ -1,5 +1,7 @@
 import React from "react";
 import {Image, Alert, Button} from "react-bootstrap"
+import {Nav, Navbar, NavDropdown, MenuItem, NavItem} from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 // Reach page if metamask is locked
 class MetaMaskLocked extends React.Component {
@@ -25,6 +27,25 @@ class MetaMaskLocked extends React.Component {
   render() {
     if (this.state.show) {
       return (
+        <div>
+          <Navbar>
+          <Navbar.Header>
+            <Navbar.Brand>
+            <a href="/">Nudge</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>  
+      
+          
+
+          <Nav pullRight>
+            
+          </Nav>
+          </Navbar.Collapse>
+        </Navbar>    
+        
+
         <div className="container">
           <Alert bsStyle="danger" onDismiss={this.handleDismiss}>
             <h4>You don't have MetaMask!</h4>
@@ -38,6 +59,7 @@ class MetaMaskLocked extends React.Component {
               <Image responsive src="https://raw.githubusercontent.com/MetaMask/faq/master/images/download-metamask.png"/>
             </a>
           </div>
+        </div>
         </div>
       );
     }
