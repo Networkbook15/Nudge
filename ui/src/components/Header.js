@@ -1,17 +1,18 @@
 import React from "react";
 import {Nav, Navbar, NavDropdown, MenuItem, NavItem, Image} from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import {Redirect} from 'react-router-dom';
+import {Redirect, BrowserRouter} from 'react-router-dom';
 
-
-const dummyPublicKey = '0xc02B48f6b5847c6d5aC4a2EEf3283D7436295788';
 
 class Header extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      redirect:false
+      redirect:false,
+      pubkey : ""
     }
+
+    // console.log(window.location.pathname);
   }
 
   componentDidMount(){
@@ -20,6 +21,13 @@ class Header extends React.Component {
       console.log("Using web3 detected from external source like Metamask")
       this.web3 = new Web3(web3.currentProvider)
       this.setState({redirect:false});
+      this.web3.eth.getAccounts((err, res) =>{
+        this.setState({
+          pubkey : res[0]
+        })
+      })
+
+
     }
     else{
       this.setState({redirect:true});
@@ -27,8 +35,10 @@ class Header extends React.Component {
   }
 
   render() {
-    if (this.state.redirect) {
-			return <Redirect to='/locked'/>;
+
+
+    if(this.state.redirect){
+      return <Redirect to='/locked'/>;
     }
 
     return (
@@ -42,7 +52,7 @@ class Header extends React.Component {
       <Navbar.Collapse>  
     
       <Navbar.Text>
-        Signed in as: {dummyPublicKey}
+        Signed in as: {this.state.pubkey}
       </Navbar.Text>
       
 
