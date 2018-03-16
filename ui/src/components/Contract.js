@@ -301,12 +301,23 @@ export default class Contract extends React.Component {
       this.setState({redirect:false});
       
 			// import ABI, put contract in state
-			const MyContract = web3.eth.contract(disincentiveABI);
+			const MyContract = web3.eth.contract(nudgeABI);
 			this.state.ContractInstance = MyContract.at(CONTRACT_ADDRESS);
     }
     else {
       this.setState({redirect:true});
-    }
+		}
+
+		// Need to do once
+		this.updateUserAddressState();
+		this.updateAlternativePayoutAddressState();
+		this.updateCommitmentState();
+		this.updateDeadlineState();
+		this.updateModeratorAddressState();
+			
+		// Will be updated every second
+		this.updateState();
+		setInterval(this.updateState.bind(this), 1000);
   }
 
   // User Address State
@@ -325,7 +336,7 @@ export default class Contract extends React.Component {
     this.state.ContractInstance.moderator((err, result) => {
       if (result != null){
         this.setState({
-          referee: result
+          moderator: result
         })
       }
     })

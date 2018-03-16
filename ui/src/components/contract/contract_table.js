@@ -18,7 +18,6 @@ TODO:
 */
 
 const ContractTable = (props) => {
-    console.log(props)
     return (
       <table className="table table-bordered table-hover contract-table">
         <thead>
@@ -31,7 +30,7 @@ const ContractTable = (props) => {
         <tbody>
           <tr>
             <td>User Address</td>
-            <td>{props.user}</td>
+            <td>{props.state.user}</td>
           </tr>
           <tr>
             <td>Moderator Address</td>
