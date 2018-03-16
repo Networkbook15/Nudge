@@ -21,11 +21,9 @@ const router = (
         <Route exact path="/" component={Home}/>
         <Route path="/contract" component={Contract}/>
         <Route path="/locked" component={MetaMaskLocked}/>
-
         <Route path="/moderate" component={ModeratePage}/>
         <Route path="/mycommitments" component={MyCommitmentsPage}/>
         <Route path="/community" component={CommunityPage}/>
-
         <Route path="*" component={NotFound}/>
       </Switch>
     </div>
