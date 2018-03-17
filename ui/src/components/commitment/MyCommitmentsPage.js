@@ -6,7 +6,7 @@ import {Redirect, BrowserRouter} from 'react-router-dom';
 import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../common/Constants';
 import {withRouter} from "react-router-dom";
 
-import Contract from '../Contract'
+import Contract from '../contract/Contract'
 
 
 class MyCommitmentsPage extends React.Component {

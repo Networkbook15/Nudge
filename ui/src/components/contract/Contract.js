@@ -1,17 +1,18 @@
 import React from "react";
 import _ from 'lodash';
 
-import ContractTable from './contract/contract_table';
-import ContractFunctions from './contract/contract_functions';
+import ContractTable from './contract_table';
+import ContractFunctions from './contract_functions';
 
-// import constants 
-import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../components/common/Constants';
+import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS, willRinkeby1, willRinkeby2, willRinkeby3} from '../common/Constants';
 
 export default class Contract extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       factoryContractCount: "Loading",
+
+
       contractAddress: this.props.contractAddress,      
       user: "Loading...",
       moderator: "Loading...",
@@ -36,7 +37,7 @@ export default class Contract extends React.Component {
       
 			// import ABI, put contract in state
 			const MyContract = web3.eth.contract(nudgeABI);
-			this.state.ContractInstance = MyContract.at(this.props.contractAddress);
+			this.state.ContractInstance = MyContract.at(this.state.contractAddress);
     }
     else {
       this.setState({redirect:true});
@@ -191,11 +192,10 @@ export default class Contract extends React.Component {
   render() {
     return (
         <div className="container">
-            <h1>Contract</h1>
             <ContractTable state={this.state}/>
-            <ContractFunctions ContractInstance={this.state.ContractInstance}/> 
         </div>
     );
   }
 }
 
+//<ContractFunctions ContractInstance={this.state.ContractInstance}/> 

@@ -78,20 +78,9 @@ export default class ContractFunctions extends React.Component {
   }
 
 
-  render() {
-    return(
+  render() {		
+		return(
       <div>
-				<InputForm
-					onSubmit={this.onConstructorFormSubmit}
-					label="Create Contract"
-					placeholder="address _referee, address _alternativePayout, string _commitment, uint _durationMinutes"
-					value={this.state.constructorParamsInputVal}
-					onChange={this.handleConstructorInput}
-					disabled={true}
-				/>
-
-				<br/>
-
 				<InputForm
 					onSubmit={this.onProvideProofFormSubmit}
 					label="Provide Proof"
