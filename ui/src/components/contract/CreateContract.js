@@ -10,10 +10,10 @@ toastr.options = '../common/toastrOptions.js';
 class CreateContract extends React.Component {
 
     constructor(props){
-        super(props);
-
+		super(props);
+		
         this.state = {
-			pubKey: this.props.pubKey,
+			pubKey: this.props.location.state.pubKey || "",
 			commitment: '',
 			ethValue: '',
 			duration: '',
@@ -35,14 +35,13 @@ class CreateContract extends React.Component {
 
     componentWillMount(){
         if(typeof web3 !== 'undefined'){
-            console.log("Using web3 detected from external source like Metamask")
             this.web3 = new Web3(web3.currentProvider)
                 
             // import ABI, put contract in state
             const MyFactory = web3.eth.contract(nudgeFactoryABI);
             this.state.FactoryContractInstance = MyFactory.at(RINKEBY_CONTRACT_FACTORY_ADDRESS);
 
-            console.log(this.state.FactoryContractInstance);
+            // console.log(this.state.FactoryContractInstance);
         }
     }
 

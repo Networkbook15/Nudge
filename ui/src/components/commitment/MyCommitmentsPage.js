@@ -90,6 +90,7 @@ class MyCommitmentsPage extends React.Component {
                             }
                             else{
                                 this.setState({
+                                    pubKey : pubKey,
                                     commitments : commitments,
                                     history : history,
                                     totalForfeited : totalForfeited,

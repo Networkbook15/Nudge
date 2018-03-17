@@ -9,11 +9,12 @@ import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATE
 export default class Contract extends React.Component {
   constructor(props){
     super(props);
+
     this.state = {
       factoryContractCount: "Loading",
 
 
-      contractAddress: this.props.contractAddress,      
+      contractAddress: this.props.location.state.contractAddress || "",      
       user: "Loading...",
       moderator: "Loading...",
       alternativePayout: "Loading...",
@@ -29,7 +30,7 @@ export default class Contract extends React.Component {
     }
   }
 
-  componentDidMount(){
+  componentWillMount(){
     if(typeof web3 !== 'undefined'){
       console.log("Using web3 detected from external source like Metamask")
 			this.web3 = new Web3(web3.currentProvider)
