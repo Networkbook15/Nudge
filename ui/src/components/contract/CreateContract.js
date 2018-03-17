@@ -401,13 +401,6 @@ class CreateContract extends React.Component {
             this.state.FactoryContractInstance = MyFactory.at(RINKEBY_CONTRACT_FACTORY_ADDRESS);
 
             console.log(this.state.FactoryContractInstance);
-
-            
-            this.state.FactoryContractInstance.getContractsList( function(error, result){
-                if (!error){
-                  console.log(result)
-                }
-            });
         }
     }
 
@@ -417,40 +410,37 @@ class CreateContract extends React.Component {
 
     render(){
         return(
-            <div>
-        <Form inline>
-        <FormGroup controlId="name">
-            <ControlLabel>Your Address</ControlLabel>{' '}
-            <FormControl value={this.state.name}  onChange={this.handleChange} type="text" placeholder="Name" />
-        </FormGroup>{' '}    
-        <FormGroup controlId="quantity">
-            <ControlLabel>Quantity</ControlLabel>{' '}
-            <FormControl  value={this.state.Quantity} onChange={this.handleChange} type="text" placeholder="Quantity" />
-        </FormGroup>{' '}
-        <FormGroup controlId="startingPrice">
-            <ControlLabel>Starting Price</ControlLabel>{' '}
-            <FormControl value={this.state.startingPrice} onChange={this.handleChange} type="text" placeholder="Price" />
-        </FormGroup>{' '}      
-        <FormGroup controlId="duration">
-            <ControlLabel>Duration</ControlLabel>{' '}
-            <FormControl value={this.state.duration} onChange={this.handleChange} type="text" placeholder="Duration in Minutes" />
-        </FormGroup>{' '}       
-        </Form>
-        
-        <Form>    
-        <FormGroup controlId="trustedRedeemer">
-            <ControlLabel>Trusted Redeemers</ControlLabel>{' '}
-            <FormControl value={this.state.trustedRedeemer} onChange={this.handleRedeemersChange} type="text" placeholder="Addresses of trusted redeemer" />
-        </FormGroup>{' '} 
-        <FormGroup controlId="payoutAddress">
-            <ControlLabel>Payout Address</ControlLabel>{' '}
-            <FormControl  value={this.state.payoutAddress} onChange={this.handleChange} type="text" placeholder="Payout Address" />
-        </FormGroup>{' '}    
-        <Button onClick={this.handleSubmit}>Create</Button>
-        </Form>
-
-
-
+            <div className="container">
+				<Form>
+					<FormGroup controlId="Public Key">
+						<ControlLabel>Your Wallet Address</ControlLabel>{' '}
+						<FormControl value={this.state.pubKey}  onChange={this.handleChange} type="text" placeholder="Ethereum Wallet " />
+					</FormGroup>{' '}    
+					<FormGroup controlId="quantity">
+						<ControlLabel>Quantity</ControlLabel>{' '}
+						<FormControl  value={this.state.Quantity} onChange={this.handleChange} type="text" placeholder="Quantity" />
+					</FormGroup>{' '}
+					<FormGroup controlId="startingPrice">
+						<ControlLabel>Ethereum</ControlLabel>{' '}
+						<FormControl value={this.state.startingPrice} onChange={this.handleChange} type="text" placeholder="How much Ethereum you are commiting" />
+					</FormGroup>{' '}      
+					<FormGroup controlId="duration">
+						<ControlLabel>Duration</ControlLabel>{' '}
+						<FormControl value={this.state.duration} onChange={this.handleChange} type="text" placeholder="Duration in Minutes" />
+					</FormGroup>{' '}       
+					</Form>
+					
+					<Form>    
+					<FormGroup controlId="trustedRedeemer">
+						<ControlLabel>Moderator Address</ControlLabel>{' '}
+						<FormControl value={this.state.trustedRedeemer} onChange={this.handleRedeemersChange} type="text" placeholder="Ethereum Wallet address of trusted moderator" />
+					</FormGroup>{' '} 
+					<FormGroup controlId="payoutAddress">
+						<ControlLabel>Payout Address</ControlLabel>{' '}
+						<FormControl  value={this.state.payoutAddress} onChange={this.handleChange} type="text" placeholder="Ethereum Wallet address to pay if you fail" />
+					</FormGroup>{' '}    
+					<Button onClick={this.handleSubmit}>Create</Button>
+				</Form>
             </div>
         );
     }
