@@ -1,6 +1,6 @@
 import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
-import {Tabs, Tab, Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Label, Tabs, Tab, Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect, BrowserRouter} from 'react-router-dom';
 
 
@@ -14,7 +14,11 @@ class MyCommitmentsPage extends React.Component {
         this.state = {
             pubKey : "",
             commitments: [],
-            history: []
+            history: [],
+            totalStaked: "",
+            totalForfeited: "",
+            totalReturned: "",
+            commitmentsCompleted: ""
 
         }
 
@@ -47,7 +51,13 @@ class MyCommitmentsPage extends React.Component {
     render() {
         return (
             <div className="container">
-            <Jumbotron><h1>My Commitments</h1></Jumbotron>
+            <Jumbotron>
+                <h1>My Commitments</h1>
+                <h3><Label>Total Staked: {this.state.totalStaked}</Label></h3>
+                <h3><Label>Total Forfeited: {this.state.totalForfeited}</Label></h3>
+                <h3><Label>Total Return: {this.state.totalReturned}</Label></h3>
+                <h3><Label>Commitments Completed: {this.state.commitmentsCompleted}</Label></h3>
+            </Jumbotron>
             <Button bsStyle="primary" onClick={this.handleAddCommitment}>Create New Commitment</Button>
             <br/><br/>
             <Tabs id="commitment-tabs"> 

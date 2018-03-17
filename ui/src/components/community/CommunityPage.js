@@ -1,6 +1,6 @@
 import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
-import {Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Label, Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect, BrowserRouter} from 'react-router-dom';
 
 class CommunityPage extends React.Component {
@@ -9,7 +9,11 @@ class CommunityPage extends React.Component {
         super(props);
 
         this.state = {
-            commitments: []
+            commitments: [],
+            totalStaked: "",
+            totalForfeited: "",
+            totalReturned: "",
+            commitmentsCompleted: ""
 
         }
 
@@ -27,7 +31,13 @@ class CommunityPage extends React.Component {
     render() {
         return (
             <div className="container">
-            <Jumbotron><h1>Nudge Community Commitments</h1></Jumbotron>
+            <Jumbotron>
+                <h1>Nudge Community Commitments</h1>
+                <h3><Label>Total Staked: {this.state.totalStaked}</Label></h3>
+                <h3><Label>Total Forfeited: {this.state.totalForfeited}</Label></h3>
+                <h3><Label>Total Return: {this.state.totalReturned}</Label></h3>
+                <h3><Label>Commitments Completed: {this.state.commitmentsCompleted}</Label></h3>
+            </Jumbotron>
             <ListGroup>
                 <ListGroupItem>Item 1</ListGroupItem>
                 <ListGroupItem>Item 2</ListGroupItem>
