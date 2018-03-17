@@ -275,6 +275,20 @@ export const nudgeABI = [
 export const nudgeFactoryABI = [
 	{
 		"constant": true,
+		"inputs": [],
+		"name": "getFullList",
+		"outputs": [
+			{
+				"name": "full",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [
 			{
 				"name": "key",
@@ -305,6 +319,25 @@ export const nudgeFactoryABI = [
 			{
 				"name": "contractCount",
 				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "fullContractList",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
 			}
 		],
 		"payable": false,
@@ -360,5 +393,9 @@ export const nudgeFactoryABI = [
 	}
 ]
 
-export const RINKEBY_CONTRACT_FACTORY_ADDRESS = '0x1DF4a755947530aA81eEC403dA84FcE3E671c3ec';
-export const INSTANTIATED_CONTRACT_ADDRESS = '0x17e205837a0ffaec6197b946aff5a08a5456f64f';
+export const RINKEBY_CONTRACT_FACTORY_ADDRESS = '0xF254491b5Ec394e63d6A61B500205d75788C0565';
+export const INSTANTIATED_CONTRACT_ADDRESS = '0x36013f52b544202d233732d30db7df4acf5fd87d';
+
+export const willRinkeby1 = "0xdC0B7b902192AACDd56a52221cC8A146E8da2f54";
+export const willRinkeby2 = "0x477B431C3B36331050c32712535034F7085E56a1";
+export const willRinkeby3 = "0xc02B48f6b5847c6d5aC4a2EEf3283D7436295788";
