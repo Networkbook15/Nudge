@@ -3,6 +3,8 @@ import {Form, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstra
 
 // import consts
 import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS, willRinkeby1, willRinkeby2, willRinkeby3} from '../common/Constants';
+import {Redirect} from "react-router-dom";
+
 
 class CreateContract extends React.Component {
 
@@ -48,26 +50,13 @@ class CreateContract extends React.Component {
 
 		// user, mod, payout, commitment, duration
 		this.state.FactoryContractInstance.newCookie(willRinkeby3, willRinkeby2, willRinkeby1,
-			"commitment text", 50, {from: this.web3.eth.accounts[0], gas: 950000, value: web3.toWei(0.055)},
-			function(err, result){
-				console.log(err);
-				console.log(result)
-				if (!err){
-			  		console.log(result)
-				}
-			}
-		);		
-			/*, 
-			this.state.pubKey, this.state.moderatorAddress, this.state.payoutAddress,
-			this.state.commitment, this.state.duration
+			"commitment text", "50", {from: this.web3.eth.accounts[0], gas: 6500000, value: web3.toWei(0.055)},
 			function(err, result){
 				if (!err){
-			  	console.log(result)
+					console.log(result)
 				}
-		}*/
-	
-		
-
+			}			
+		);
 	}
 
     render(){

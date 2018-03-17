@@ -36,7 +36,7 @@ export default class Contract extends React.Component {
       
 			// import ABI, put contract in state
 			const MyContract = web3.eth.contract(nudgeABI);
-			this.state.ContractInstance = MyContract.at(CONTRACT_ADDRESS);
+			this.state.ContractInstance = MyContract.at(this.props.contractAddress);
     }
     else {
       this.setState({redirect:true});

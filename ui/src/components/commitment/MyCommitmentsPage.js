@@ -2,8 +2,11 @@ import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
 import {Label, Tabs, Tab, Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect, BrowserRouter} from 'react-router-dom';
+
 import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../common/Constants';
 import {withRouter} from "react-router-dom";
+
+import Contract from '../Contract'
 
 
 class MyCommitmentsPage extends React.Component {
@@ -78,7 +81,7 @@ class MyCommitmentsPage extends React.Component {
             <Tabs id="commitment-tabs"> 
                 <Tab eventKey={1} title="Current Commitments">
                     <ListGroup>
-                        <ListGroupItem>Item 1</ListGroupItem>
+                        <ListGroupItem><Contract contractAddress="0x9ccfe3d7f0e78e726fe5f728ae624ea3009cf4cd"/></ListGroupItem>
                         <ListGroupItem>Item 2</ListGroupItem>
                         <ListGroupItem>...</ListGroupItem>
                     </ListGroup>
