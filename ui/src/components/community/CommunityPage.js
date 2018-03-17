@@ -2,6 +2,9 @@ import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
 import {Label, Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect, BrowserRouter} from 'react-router-dom';
+import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../common/Constants';
+
+
 
 class CommunityPage extends React.Component {
 
@@ -39,10 +42,14 @@ class CommunityPage extends React.Component {
                 <h3><Label>Commitments Completed: {this.state.commitmentsCompleted}</Label></h3>
             </Jumbotron>
             <ListGroup>
-                <ListGroupItem>Item 1</ListGroupItem>
+                <ListGroupItem>
+                Item1
+                </ListGroupItem>
                 <ListGroupItem>Item 2</ListGroupItem>
                 <ListGroupItem>...</ListGroupItem>
+
             </ListGroup>
+
             </div>
         );
     }

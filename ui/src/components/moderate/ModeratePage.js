@@ -2,6 +2,7 @@ import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
 import {Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect, BrowserRouter} from 'react-router-dom';
+import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../common/Constants';
 
 class ModeratePage extends React.Component {
 

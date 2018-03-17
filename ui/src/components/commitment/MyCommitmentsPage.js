@@ -2,8 +2,8 @@ import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
 import {Label, Tabs, Tab, Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect, BrowserRouter} from 'react-router-dom';
-
-
+import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../common/Constants';
+import {withRouter} from "react-router-dom";
 
 
 class MyCommitmentsPage extends React.Component {
@@ -35,8 +35,20 @@ class MyCommitmentsPage extends React.Component {
                   const pubKey = res[0];         
                   
                   //Need to look up all contracts that exist for this pub key, set this in commitments
+                    let commitments  = []
+                    let history = []
+                    const MyFactory = web3.eth.contract(nudgeFactoryABI);
+                    const MyFactoryContractInstance = MyFactory.at(RINKEBY_CONTRACT_FACTORY_ADDRESS);
+                    MyFactoryContractInstance.getContractsList('0xc02b48f6b5847c6d5ac4a2eef3283d7436295788', (err, list)=>{
+                        
+                        //set history and commitments []
+                        console.log(list);
+                    });
+
                   this.setState({
                       pubKey: pubKey,
+                      commitments : commitments,
+                      history : history
                   });
                 });
             }
@@ -44,7 +56,10 @@ class MyCommitmentsPage extends React.Component {
     }
 
     handleAddCommitment(){
-        return <Redirect pubKey={this.state.pubKey} to='newcommitment'/>
+        this.props.history.push({
+            pathname: '/createcontract',
+            state: {pubKey : this.state.pubKey}
+        })
     }
 
 
@@ -82,4 +97,4 @@ class MyCommitmentsPage extends React.Component {
     }
 }
 
-export default MyCommitmentsPage;
+export default withRouter(MyCommitmentsPage);
