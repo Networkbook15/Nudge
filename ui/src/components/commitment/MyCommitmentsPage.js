@@ -1,6 +1,6 @@
 import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
-import {Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Tabs, Tab, Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect, BrowserRouter} from 'react-router-dom';
 
 
@@ -13,7 +13,8 @@ class MyCommitmentsPage extends React.Component {
 
         this.state = {
             pubKey : "",
-            commitments: []
+            commitments: [],
+            history: []
 
         }
 
@@ -47,12 +48,25 @@ class MyCommitmentsPage extends React.Component {
         return (
             <div className="container">
             <Jumbotron><h1>My Commitments</h1></Jumbotron>
-            <Button bsStyle="primary" bsSize="large" onClick={this.handleAddCommitment}>+</Button>
-            <ListGroup>
-                <ListGroupItem>Item 1</ListGroupItem>
-                <ListGroupItem>Item 2</ListGroupItem>
-                <ListGroupItem>...</ListGroupItem>
-            </ListGroup>
+            <Button bsStyle="primary" onClick={this.handleAddCommitment}>Create New Commitment</Button>
+            <br/><br/>
+            <Tabs id="commitment-tabs"> 
+                <Tab eventKey={1} title="Current Commitments">
+                    <ListGroup>
+                        <ListGroupItem>Item 1</ListGroupItem>
+                        <ListGroupItem>Item 2</ListGroupItem>
+                        <ListGroupItem>...</ListGroupItem>
+                    </ListGroup>
+                </Tab>
+                <Tab eventKey={2} title="History">
+                    <ListGroup>
+                        <ListGroupItem>Item 1</ListGroupItem>
+                        <ListGroupItem>Item 2</ListGroupItem>
+                        <ListGroupItem>...</ListGroupItem>
+                    </ListGroup>
+                </Tab>
+            </Tabs>
+
             </div>
         );
     }
