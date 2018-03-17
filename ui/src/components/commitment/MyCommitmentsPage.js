@@ -29,7 +29,7 @@ class MyCommitmentsPage extends React.Component {
                 web3.eth.getAccounts((err, res) => {
                   const pubKey = res[0];         
                   
-                  //Need to look up all contracts that exist for this pub key
+                  //Need to look up all contracts that exist for this pub key, set this in commitments
                   this.setState({
                       pubKey: pubKey,
                   });
