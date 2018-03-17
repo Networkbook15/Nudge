@@ -39,7 +39,7 @@ class MyCommitmentsPage extends React.Component {
     }
 
     handleAddCommitment(){
-
+        return <Redirect pubKey={this.state.pubKey} to='newcommitment'/>
     }
 
 
@@ -48,7 +48,11 @@ class MyCommitmentsPage extends React.Component {
             <div className="container">
             <Jumbotron><h1>My Commitments</h1></Jumbotron>
             <Button bsStyle="primary" bsSize="large" onClick={this.handleAddCommitment}>+</Button>
-            
+            <ListGroup>
+                <ListGroupItem>Item 1</ListGroupItem>
+                <ListGroupItem>Item 2</ListGroupItem>
+                <ListGroupItem>...</ListGroupItem>
+            </ListGroup>
             </div>
         );
     }
