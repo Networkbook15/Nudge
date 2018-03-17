@@ -1,8 +1,6 @@
 import React from "react";
-import _ from 'lodash';
+import {Form, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 
-import ContractTable from './contract/contract_table';
-import ContractFunctions from './contract/contract_functions';
 
 const willRinkebyAccount1 = "0xdC0B7b902192AACDd56a52221cC8A146E8da2f54";
 const willRinkebyAccount2 = "0x477B431C3B36331050c32712535034F7085E56a1";
@@ -373,195 +371,93 @@ const RINKEBY_CONTRACT_FACTORY_ADDRESS = '0x1DF4a755947530aA81eEC403dA84FcE3E671
 const INSTANTIATED_CONTRACT_ADDRESS = '0x17e205837a0ffaec6197b946aff5a08a5456f64f';
 // instantiated should have 0.0993 ETH
 
-export default class Contract extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      factoryContractCount: "Loading",
-      contractAddress: this.props.contractAddress,      
-      user: "Loading...",
-      moderator: "Loading...",
-      alternativePayout: "Loading...",
-      commitment: "Loading...",
-      deadline: "Loading...",
-      proof: "Loading...",
-      verdict: "Loading...",
-      proofProvided: "Loading...",
-      currentState: "Loading...",
-      currentTime: "Loading...",
-      deadline: "Loading...",
-      redirect:false     
+class CreateContract extends React.Component {
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            pubKey: this.props.pubKey
+        }
+
+        this.handleChange = this.handleChange.bind(this);
     }
-  }
 
-  componentDidMount(){
-    if(typeof web3 !== 'undefined'){
-      console.log("Using web3 detected from external source like Metamask")
-			this.web3 = new Web3(web3.currentProvider)
-      this.setState({redirect:false});
-      
-			// import ABI, put contract in state
-			const MyContract = web3.eth.contract(nudgeABI);
-			this.state.ContractInstance = MyContract.at(CONTRACT_ADDRESS);
+    handleChange(evt){
+        const value = evt.target.value;
+        
+        this.setState({
+            [evt.target.id] : value
+        });
     }
-    else {
-      this.setState({redirect:true});
-		}
 
-		// Need to do once
-		this.updateUserAddressState();
-		this.updateAlternativePayoutAddressState();
-		this.updateCommitmentState();
-		this.updateDeadlineState();
-		this.updateModeratorAddressState();
-		this.updateProofProvided();
-		this.updateVerdict();
-		this.updateContractStateMachine();
-			
-		// Will be updated every second
-		this.updateState();
-		setInterval(this.updateState.bind(this), 1000);
-	}
+    componentWillMount(){
+        if(typeof web3 !== 'undefined'){
+            console.log("Using web3 detected from external source like Metamask")
+            this.web3 = new Web3(web3.currentProvider)
+                
+            // import ABI, put contract in state
+            const MyFactory = web3.eth.contract(nudgeFactoryABI);
+            this.state.FactoryContractInstance = MyFactory.at(RINKEBY_CONTRACT_FACTORY_ADDRESS);
 
-	// Contract Emitted Events 
-	componentWillUpdate() {
-    this.state.ContractInstance.deadlineTime([], [], function(error, result){
-      console.log("Event! Deadline Time Provided!")
-      if (!error){
-        console.log(result)
-      }
-    });
-    
-    // Throws an error bc variable and function have the same name!
-    this.state.ContractInstance.proofHasBeenProvided([], [], function(error, result){
-      console.log("Event! Proof Provided!")
-      if (!error){
-        console.log(result)
-      }
-    });
-  
-    this.state.ContractInstance.noProofProvided([], [], function(error, result){
-      console.log("Event! No Proof Provided!")
-      if (!error){
-        console.log(result)
-      }
-    });
-  
-    this.state.ContractInstance.verdictDecided([], [], function(error, result){
-      console.log("Event! Verdict Decided!")
-      if (!error){
-        console.log(result)
-      }
-    });
-	}
+            console.log(this.state.FactoryContractInstance);
 
-  // User Address State
-  updateUserAddressState(){
-    this.state.ContractInstance.user((err, result) => {
-      if (result != null){
-        this.setState({
-          user: result
-        })
-      }
-    })
-  }
-  
-  // Moderator Address State
-  updateModeratorAddressState(){
-    this.state.ContractInstance.moderator((err, result) => {
-      if (result != null){
-        this.setState({
-          moderator: result
-        })
-      }
-    })
-  }
-  
-  // Alternative Payout Address State
-  updateAlternativePayoutAddressState(){
-    this.state.ContractInstance.alternativePayout((err, result) => {
-      if (result != null){
-        this.setState({
-          alternativePayout: result
-        })
-      }
-    })
-  }
-  
-  // commitment State
-  updateCommitmentState(){
-    this.state.ContractInstance.commitment((err, result) => {
-      if (result != null){
-        this.setState({
-          commitment: result
-        })
-      }
-    })
-  }
-  
-  // Deadline State
-  updateDeadlineState(){
-    this.state.ContractInstance.deadline((err, result) => {
-      if (result != null){
-        this.setState({
-          deadline: result.toString()
-        })
-      }
-    }); 
-  }
-
-	// Proof Provided State
-	updateProofProvided(){
-		this.state.ContractInstance.proofProvided((err, result) => {
-			if (result != null){
-				this.setState({
-					proofProvided: result.toString()
-				})
-			}
-		})  
-	}
-
-	// Current Verdict (defaults to false)
-	updateVerdict(){
-		this.state.ContractInstance.verdict((err, result) => {
-			if (result != null){
-				this.setState({
-					verdict: result.toString()
-				})
-			}
-		}) 
-	}
-
-	// Current State-machine/contract state
-	updateContractStateMachine(){
-		this.state.ContractInstance.currentState((err, result) => {
-			if (result != null){
-				this.setState({
-					currentState: result.toString()
-				})
-			}
-		})
-	} 
+            
+            this.state.FactoryContractInstance.getContractsList( function(error, result){
+                if (!error){
+                  console.log(result)
+                }
+            });
+        }
+    }
 
 
-  updateState() {      
-    // Current Time 
-    var timeNow = new Date();
-    this.setState({
-      currentTime: timeNow.toString()
-    })
-  }
-  
 
 
-  render() {
-    return (
-        <div className="container">
-            <h1>Contract</h1>
-            <ContractTable state={this.state}/>
-            <ContractFunctions ContractInstance={this.state.ContractInstance}/> 
-        </div>
-    );
-  }
+
+    render(){
+        return(
+            <div>
+        <Form inline>
+        <FormGroup controlId="name">
+            <ControlLabel>Your Address</ControlLabel>{' '}
+            <FormControl value={this.state.name}  onChange={this.handleChange} type="text" placeholder="Name" />
+        </FormGroup>{' '}    
+        <FormGroup controlId="quantity">
+            <ControlLabel>Quantity</ControlLabel>{' '}
+            <FormControl  value={this.state.Quantity} onChange={this.handleChange} type="text" placeholder="Quantity" />
+        </FormGroup>{' '}
+        <FormGroup controlId="startingPrice">
+            <ControlLabel>Starting Price</ControlLabel>{' '}
+            <FormControl value={this.state.startingPrice} onChange={this.handleChange} type="text" placeholder="Price" />
+        </FormGroup>{' '}      
+        <FormGroup controlId="duration">
+            <ControlLabel>Duration</ControlLabel>{' '}
+            <FormControl value={this.state.duration} onChange={this.handleChange} type="text" placeholder="Duration in Minutes" />
+        </FormGroup>{' '}       
+        </Form>
+        
+        <Form>    
+        <FormGroup controlId="trustedRedeemer">
+            <ControlLabel>Trusted Redeemers</ControlLabel>{' '}
+            <FormControl value={this.state.trustedRedeemer} onChange={this.handleRedeemersChange} type="text" placeholder="Addresses of trusted redeemer" />
+        </FormGroup>{' '} 
+        <FormGroup controlId="payoutAddress">
+            <ControlLabel>Payout Address</ControlLabel>{' '}
+            <FormControl  value={this.state.payoutAddress} onChange={this.handleChange} type="text" placeholder="Payout Address" />
+        </FormGroup>{' '}    
+        <Button onClick={this.handleSubmit}>Create</Button>
+        </Form>
+
+
+
+            </div>
+        );
+    }
+
+
+
 }
 
+
+export default CreateContract;

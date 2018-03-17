@@ -9,6 +9,7 @@ import Header from "./components/common/Header";
 import ModeratePage from "./components/moderate/ModeratePage";
 import CommunityPage from "./components/community/CommunityPage";
 import MyCommitmentsPage from "./components/commitment/MyCommitmentsPage";
+import CreateContract from "./components/forms/CreateContract";
 
 
 
@@ -24,6 +25,7 @@ const router = (
         <Route path="/moderate" component={ModeratePage}/>
         <Route path="/mycommitments" component={MyCommitmentsPage}/>
         <Route path="/community" component={CommunityPage}/>
+        <Route path="/newcommitment" component={CreateContract}/>
         <Route path="*" component={NotFound}/>
       </Switch>
     </div>

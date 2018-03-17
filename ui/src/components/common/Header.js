@@ -52,7 +52,7 @@ class Header extends React.Component {
       <Navbar.Collapse>  
     
       <Navbar.Text>
-        Signed in as: {this.state.pubKey}
+        {this.state.pubKey ? "Signed in as: " + this.state.pubKey : "Not Logged In, Unlock MetaMask!" } 
       </Navbar.Text>
       
 
