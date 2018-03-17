@@ -4,7 +4,8 @@ import {Form, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstra
 // import consts
 import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS, willRinkeby1, willRinkeby2, willRinkeby3} from '../common/Constants';
 import {Redirect} from "react-router-dom";
-
+import toastr from 'toastr';
+toastr.options = '../common/toastrOptions.js';
 
 class CreateContract extends React.Component {
 

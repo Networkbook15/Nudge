@@ -2,12 +2,10 @@ import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
 import {Label, Tabs, Tab, Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect, BrowserRouter} from 'react-router-dom';
-
-import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../common/Constants';
+import {contractStateMapping, nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../common/Constants';
 import {withRouter} from "react-router-dom";
-
 import Contract from '../Contract'
-
+import asyncLoop from 'node-async-loop';
 
 class MyCommitmentsPage extends React.Component {
 
@@ -18,15 +16,16 @@ class MyCommitmentsPage extends React.Component {
             pubKey : "",
             commitments: [],
             history: [],
-            totalStaked: "",
-            totalForfeited: "",
-            totalReturned: "",
-            commitmentsCompleted: ""
+            totalStaked: 0,
+            totalForfeited: 0,
+            totalReturned: 0,
+            commitmentsCompleted: 0
 
         }
 
 
         this.handleAddCommitment = this.handleAddCommitment.bind(this);
+        this.handleListGroupItem = this.handleListGroupItem.bind(this);
     }
 
 
@@ -37,22 +36,74 @@ class MyCommitmentsPage extends React.Component {
                 web3.eth.getAccounts((err, res) => {
                   const pubKey = res[0];         
                   
-                  //Need to look up all contracts that exist for this pub key, set this in commitments
+                    //Need to look up all contracts that exist for this pub key, set this in commitments
                     let commitments  = []
                     let history = []
-                    const MyFactory = web3.eth.contract(nudgeFactoryABI);
-                    const MyFactoryContractInstance = MyFactory.at(RINKEBY_CONTRACT_FACTORY_ADDRESS);
-                    MyFactoryContractInstance.getContractsList('0xc02b48f6b5847c6d5ac4a2eef3283d7436295788', (err, list)=>{
-                        
-                        //set history and commitments []
-                        console.log(list);
+                    let totalStaked = 0;
+                    let totalForfeited = 0;
+                    let totalReturned = 0;
+                    let commitmentsCompleted = 0;
+
+                    const myFactory = web3.eth.contract(nudgeFactoryABI);
+                    const myCommitment = web3.eth.contract(nudgeABI);
+                    const myFactoryContractInstance = myFactory.at(RINKEBY_CONTRACT_FACTORY_ADDRESS);
+                    myFactoryContractInstance.getContractsList('0xc02b48f6b5847c6d5ac4a2eef3283d7436295788',(err, contractsAddresses)=>{
+
+
+                        asyncLoop(contractsAddresses, function(contractAddress, next){
+
+                            let commitmentItem = {}
+                            commitmentItem.address = contractAddress;
+                            
+                            let myCommitmentInstance = myCommitment.at(contractAddress);
+
+                            myCommitmentInstance.commitment((err,c)=>{
+                                commitmentItem.commitment = c;
+                                myCommitmentInstance.deadline((err, d)=>{
+                                    //Need to handle date here 
+                                    commitmentItem.deadline = d;
+                                    myCommitmentInstance.currentState((err,result)=>{
+                                        if(err) next(err);
+                                        let state = parseInt(result.toString());
+                                        if(contractStateMapping[state] == 'SUCCESS') {
+                                            commitmentsCompleted += 1;
+                                            history.push(commitmentItem);
+                                        }
+                                        else if(contractStateMapping[state] == 'FAILURE'){
+                                            history.push(commitmentItem);
+        
+                                        }
+                                        else{
+                                            commitments.push(commitmentItem);
+                                        }
+        
+                                    });
+                                    next();
+                                })
+                            });
+                        }, (err)=>{
+                            if(err){
+
+
+
+                            }
+                            else{
+                                this.setState({
+                                    commitments : commitments,
+                                    history : history,
+                                    totalForfeited : totalForfeited,
+                                    totalReturned : totalReturned,
+                                    totalStaked : totalStaked
+                                })
+                            }
+                        })
+
+
+
+
+
                     });
 
-                  this.setState({
-                      pubKey: pubKey,
-                      commitments : commitments,
-                      history : history
-                  });
                 });
             }
         });
@@ -65,6 +116,12 @@ class MyCommitmentsPage extends React.Component {
         })
     }
 
+    handleListGroupItem(address){
+        this.props.history.push({
+            pathname: '/contract',
+            state : {contractAddress :address}
+        });
+    }
 
     render() {
         return (
@@ -81,16 +138,16 @@ class MyCommitmentsPage extends React.Component {
             <Tabs id="commitment-tabs"> 
                 <Tab eventKey={1} title="Current Commitments">
                     <ListGroup>
-                        <ListGroupItem><Contract contractAddress="0x9ccfe3d7f0e78e726fe5f728ae624ea3009cf4cd"/></ListGroupItem>
-                        <ListGroupItem>Item 2</ListGroupItem>
-                        <ListGroupItem>...</ListGroupItem>
+                        {this.state.commitments.map((commitment,index)=>{
+                            return <ListGroupItem key={commitment.address} onClick={this.handleListGroupItem.bind(this, commitment.address)}>{commitment.commitment}</ListGroupItem>}
+                        )}
                     </ListGroup>
                 </Tab>
                 <Tab eventKey={2} title="History">
                     <ListGroup>
-                        <ListGroupItem>Item 1</ListGroupItem>
-                        <ListGroupItem>Item 2</ListGroupItem>
-                        <ListGroupItem>...</ListGroupItem>
+                    {this.state.history.map((history,index)=>{
+                            return <ListGroupItem key={history.address} onClick={this.handleListGroupItem.bind(this, history.address)}>{history.commitment}</ListGroupItem>}
+                    )}
                     </ListGroup>
                 </Tab>
             </Tabs>
