@@ -47,7 +47,6 @@ class ModeratePage extends React.Component {
                         
                         let myCommitmentInstance = myCommitment.at(contractAddress);
                         myCommitmentInstance.moderator((err, moderatorKey)=>{
-                            console.log(moderatorKey);
                             if(moderatorKey == pubKey){
                                 myCommitmentInstance.commitment((err,c)=>{
                                     commitmentItem.commitment = c;
@@ -86,7 +85,6 @@ class ModeratePage extends React.Component {
 
                         }
                         else{
-                            console.log(commitments);
                             this.setState({
                                 pubKey: pubKey,
                                 history : history,
