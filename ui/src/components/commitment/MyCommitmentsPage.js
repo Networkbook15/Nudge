@@ -1,5 +1,10 @@
 import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
+import {Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Redirect, BrowserRouter} from 'react-router-dom';
+
+
+
 
 class MyCommitmentsPage extends React.Component {
 
@@ -7,8 +12,13 @@ class MyCommitmentsPage extends React.Component {
         super(props);
 
         this.state = {
-            pubKey : ""
+            pubKey : "",
+            commitments: []
+
         }
+
+
+        this.handleAddCommitment = this.handleAddCommitment.bind(this);
     }
 
 
@@ -17,7 +27,9 @@ class MyCommitmentsPage extends React.Component {
         CheckForMetaMask.then((web3)=>{
             if(web3){              
                 web3.eth.getAccounts((err, res) => {
-                  const pubKey = res[0];                   
+                  const pubKey = res[0];         
+                  
+                  //Need to look up all contracts that exist for this pub key
                   this.setState({
                       pubKey: pubKey,
                   });
@@ -26,10 +38,17 @@ class MyCommitmentsPage extends React.Component {
         });
     }
 
+    handleAddCommitment(){
+
+    }
+
+
     render() {
         return (
             <div className="container">
-                <h1>My Commitments</h1>
+            <Jumbotron><h1>My Commitments</h1></Jumbotron>
+            <Button bsStyle="primary" bsSize="large" onClick={this.handleAddCommitment}>+</Button>
+            
             </div>
         );
     }
