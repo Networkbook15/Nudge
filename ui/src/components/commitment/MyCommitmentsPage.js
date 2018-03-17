@@ -1,7 +1,6 @@
 import React from "react";
 import CheckForMetaMask from '../common/CheckForMetaMask';
 import {Label, Tabs, Tab, Button, Jumbotron, ListGroup, ListGroupItem} from 'react-bootstrap';
-import {Redirect, BrowserRouter} from 'react-router-dom';
 import {contractStateMapping, nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../common/Constants';
 import {withRouter} from "react-router-dom";
 import asyncLoop from 'node-async-loop';
@@ -48,7 +47,7 @@ class MyCommitmentsPage extends React.Component {
                     const myFactory = web3.eth.contract(nudgeFactoryABI);
                     const myCommitment = web3.eth.contract(nudgeABI);
                     const myFactoryContractInstance = myFactory.at(RINKEBY_CONTRACT_FACTORY_ADDRESS);
-                    myFactoryContractInstance.getContractsList('0xc02b48f6b5847c6d5ac4a2eef3283d7436295788',(err, contractsAddresses)=>{
+                    myFactoryContractInstance.getContractsList(this.state.pubKey, (err, contractsAddresses)=>{
 
 
                         asyncLoop(contractsAddresses, function(contractAddress, next){
@@ -57,7 +56,6 @@ class MyCommitmentsPage extends React.Component {
                             commitmentItem.address = contractAddress;
                             
                             let myCommitmentInstance = myCommitment.at(contractAddress);
-
                             myCommitmentInstance.commitment((err,c)=>{
                                 commitmentItem.commitment = c;
                                 myCommitmentInstance.deadline((err, d)=>{
@@ -141,14 +139,14 @@ class MyCommitmentsPage extends React.Component {
                 <Tab eventKey={1} title="Current Commitments">
                     <ListGroup>
                         {this.state.commitments.map((commitment,index)=>{
-                            return <ListGroupItem key={commitment.address} onClick={this.handleListGroupItem.bind(this, commitment.address)}>{commitment.commitment}</ListGroupItem>}
+                            return <ListGroupItem key={'commitments'+index} onClick={this.handleListGroupItem.bind(this, commitment.address)}>{commitment.commitment}</ListGroupItem>}
                         )}
                     </ListGroup>
                 </Tab>
                 <Tab eventKey={2} title="History">
                     <ListGroup>
                     {this.state.history.map((history,index)=>{
-                            return <ListGroupItem key={history.address} onClick={this.handleListGroupItem.bind(this, history.address)}>{history.commitment}</ListGroupItem>}
+                            return <ListGroupItem key={'history' + index} onClick={this.handleListGroupItem.bind(this, history.address)}>{history.commitment}</ListGroupItem>}
                     )}
                     </ListGroup>
                 </Tab>

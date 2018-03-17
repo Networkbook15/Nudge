@@ -1,9 +1,7 @@
 import React from "react";
 import _ from 'lodash';
-
 import ContractTable from './contract_table';
 import ContractFunctions from './contract_functions';
-
 import {nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS, willRinkeby1, willRinkeby2, willRinkeby3} from '../common/Constants';
 
 export default class Contract extends React.Component {
