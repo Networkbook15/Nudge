@@ -11,7 +11,7 @@ export default class Contract extends React.Component {
     this.state = {
       factoryContractCount: "Loading",
 
-
+      pubKey: "",
       contractAddress: this.props.location.state.contractAddress || "",      
       user: "Loading...",
       moderator: "Loading...",
@@ -26,6 +26,9 @@ export default class Contract extends React.Component {
       deadline: "Loading...",
       redirect:false     
     }
+
+    this.onProvideProofFormSubmit = this.onProvideProofFormSubmit.bind(this);
+    this.updateProof = this.updateProof.bind(this)
   }
 
   componentWillMount(){
@@ -33,7 +36,11 @@ export default class Contract extends React.Component {
       console.log("Using web3 detected from external source like Metamask")
 			this.web3 = new Web3(web3.currentProvider)
       this.setState({redirect:false});
-      
+
+      web3.eth.getAccounts((err, res) => {
+        this.setState({'pubKey': res[0]});
+      });
+
 			// import ABI, put contract in state
 			const MyContract = web3.eth.contract(nudgeABI);
 			this.state.ContractInstance = MyContract.at(this.state.contractAddress);
@@ -48,15 +55,16 @@ export default class Contract extends React.Component {
 		this.updateCommitmentState();
 		this.updateDeadlineState();
 		this.updateModeratorAddressState();
-		this.updateProofProvided();
+    this.updateProofProvided();
+    this.updateProof();
 		this.updateVerdict();
 		this.updateContractStateMachine();
 			
 		// Will be updated every second
 		this.updateState();
 		setInterval(this.updateState.bind(this), 1000);
-	}
-
+  }
+  
 	// Contract Emitted Events 
 	componentWillUpdate() {
     this.state.ContractInstance.deadlineTime([], [], function(error, result){
@@ -153,6 +161,17 @@ export default class Contract extends React.Component {
 				})
 			}
 		})  
+  }
+  
+  // Proof String 
+	updateProof(){
+		this.state.ContractInstance.proof((err, result) => {
+			if (result != null){
+				this.setState({
+					proof: result.toString()
+				})
+			}
+		})  
 	}
 
 	// Current Verdict (defaults to false)
@@ -165,6 +184,7 @@ export default class Contract extends React.Component {
 			}
 		}) 
 	}
+
 
 	// Current State-machine/contract state
 	updateContractStateMachine(){
@@ -185,16 +205,34 @@ export default class Contract extends React.Component {
       currentTime: timeNow.toString()
     })
   }
-  
 
+  onProvideProofFormSubmit(event) {
+		event.preventDefault();
+		// user, mod, payout, commitment, duration
+    this.state.ContractInstance.proveCommitment("Proof provided via web3",
+      {from: this.web3.eth.accounts[0], gas: 65000},
+      function(err, result){
+        if (!err){
+          console.log(result)
+        }
+      }			
+    );
+
+    console.log(event.target)
+    this.setState({'proof': value});
+  }
+  
 
   render() {
     return (
         <div className="container">
             <ContractTable state={this.state}/>
+            <ContractFunctions ContractInstance={this.state.ContractInstance}
+              moderator={this.state.moderator} user={this.state.user} pubKey={this.state.pubKey} proof={this.state.proof}
+              updateProof={this.updateProof} onProvideProofFormSubmit={this.onProvideProofFormSubmit}/>
         </div>
     );
   }
 }
 
-//<ContractFunctions ContractInstance={this.state.ContractInstance}/> 
+// 

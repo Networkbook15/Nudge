@@ -20,13 +20,19 @@ export default class ContractFunctions extends React.Component {
     };
 
     this.onConstructorFormSubmit = this.onConstructorFormSubmit.bind(this);
-		this.onProvideProofFormSubmit = this.onProvideProofFormSubmit.bind(this);
+		//this.onProvideProofFormSubmit = this.onProvideProofFormSubmit.bind(this);
 		this.onNoProofFormSubmit = this.onNoProofFormSubmit.bind(this);
 		this.onDetermineValidityFormSubmit = this.onDetermineValidityFormSubmit.bind(this);
 		
 		this.handleValidityFormChange = this.handleValidityFormChange.bind(this);
     this.handleConstructorInput = this.handleConstructorInput.bind(this);
     this.handleProofInput = this.handleProofInput.bind(this);
+  }
+
+  componentWillMount(){
+    if(typeof web3 !== 'undefined'){
+      this.web3 = new Web3(web3.currentProvider)
+    }
   }
 
   // OnSubmit Form handling
@@ -36,10 +42,7 @@ export default class ContractFunctions extends React.Component {
 		console.log("Create Contract Clicked");
   }
 
-	onProvideProofFormSubmit(event) {
-		event.preventDefault();
-		console.log("Provide Proof Clicked");
-  }
+
 
 	onNoProofFormSubmit(event) {
     event.preventDefault();
@@ -79,17 +82,24 @@ export default class ContractFunctions extends React.Component {
 
 
   render() {		
-		return(
-      <div>
-				<InputForm
-					onSubmit={this.onProvideProofFormSubmit}
-					label="Provide Proof"
-					placeholder="Proof"
-					value={this.state.proofInputVal}
-					onChange={this.handleProofInput}
-					disabled={false}
-				/>
+    if (this.props.pubKey === this.props.user){
+      return (
+        <div>
+          <InputForm
+            onSubmit={this.props.onProvideProofFormSubmit(this.state.proofInputVal)}
+            label="Provide Proof"
+            placeholder="Proof"
+            value={this.state.proofInputVal}
+            onChange={this.handleProofInput}
+            disabled={false}
+          />
+        </div>
+      );
+    }
 
+    if (this.props.pubKey === this.props.moderator) {
+      return (
+        <div>
 				<form onSubmit={this.onNoProofFormSubmit} className="form-inline">  
 						<button className="btn">No Proof Provided</button>
 				</form>
@@ -104,6 +114,13 @@ export default class ContractFunctions extends React.Component {
 					optionFalseLabel="Failure"
 				/>
       </div>
-    );
+      )
+    }
+
+    else{
+      return (
+        <div></div>
+      )
+    }
   }
 }

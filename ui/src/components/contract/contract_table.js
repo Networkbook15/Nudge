@@ -52,6 +52,10 @@ const ContractTable = (props) => {
             <td>{props.state.proofProvided}</td>
           </tr>
           <tr>
+            <td>Proof</td>
+            <td>{props.state.proof}</td>
+          </tr>
+          <tr>
             <td>Current Time</td>
             <td>{props.state.currentTime}</td>
           </tr>

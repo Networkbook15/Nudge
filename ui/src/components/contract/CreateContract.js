@@ -49,8 +49,8 @@ class CreateContract extends React.Component {
 		console.log(this.state);
 
 		// user, mod, payout, commitment, duration
-		this.state.FactoryContractInstance.newCookie(willRinkeby3, willRinkeby2, willRinkeby1,
-			"commitment text", "50", {from: this.web3.eth.accounts[0], gas: 6500000, value: web3.toWei(0.055)},
+		this.state.FactoryContractInstance.newCookie(this.state.pubKey, this.state.moderatorAddress, this.state.payoutAddress,
+			this.state.commitment, this.state.duration, {from: this.web3.eth.accounts[0], gas: 6500000, value: web3.toWei(this.state.ethValue)},
 			function(err, result){
 				if (!err){
 					console.log(result)
