@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect, Link, withRouter } from "react-
 import App from "./components/App";
 import Home from "./components/common/Home";
 import NotFound from "./components/common/NotFound";
-import Contract from "./components/Contract";
+import Contract from "./components/contract/Contract";
 import MetaMaskLocked from "./components/common/MetaMaskLocked";
 import Header from "./components/common/Header";
 import ModeratePage from "./components/moderate/ModeratePage";

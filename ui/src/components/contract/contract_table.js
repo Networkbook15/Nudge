@@ -1,4 +1,6 @@
 import React from "react";
+import {Panel} from 'react-bootstrap';
+
 
 const contractStateMapping = [
   'AWAITING_COMMITMENT',
@@ -19,6 +21,7 @@ TODO:
 
 const ContractTable = (props) => {
     return (
+      <div>
       <table className="table table-bordered table-hover contract-table">
         <thead>
           <tr>
@@ -66,6 +69,7 @@ const ContractTable = (props) => {
           </tr>
         </tbody>
       </table>
+      </div>
     );
 }
 

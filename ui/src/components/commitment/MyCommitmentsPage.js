@@ -4,8 +4,9 @@ import {Label, Tabs, Tab, Button, Jumbotron, ListGroup, ListGroupItem} from 'rea
 import {Redirect, BrowserRouter} from 'react-router-dom';
 import {contractStateMapping, nudgeABI, nudgeFactoryABI, RINKEBY_CONTRACT_FACTORY_ADDRESS, INSTANTIATED_CONTRACT_ADDRESS} from '../common/Constants';
 import {withRouter} from "react-router-dom";
-import Contract from '../Contract'
 import asyncLoop from 'node-async-loop';
+import Contract from '../contract/Contract'
+
 
 class MyCommitmentsPage extends React.Component {
 
