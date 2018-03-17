@@ -20,7 +20,7 @@ export default class ContractFunctions extends React.Component {
     };
 
     this.onConstructorFormSubmit = this.onConstructorFormSubmit.bind(this);
-		//this.onProvideProofFormSubmit = this.onProvideProofFormSubmit.bind(this);
+		this.onProvideProofFormSubmit = this.onProvideProofFormSubmit.bind(this);
 		this.onNoProofFormSubmit = this.onNoProofFormSubmit.bind(this);
 		this.onDetermineValidityFormSubmit = this.onDetermineValidityFormSubmit.bind(this);
 		
@@ -42,7 +42,21 @@ export default class ContractFunctions extends React.Component {
 		console.log("Create Contract Clicked");
   }
 
+	onProvideProofFormSubmit(event) {
+		event.preventDefault();
+		// user, mod, payout, commitment, duration
+    this.props.ContractInstance.proveCommitment("Proof provided via web3",
+      {from: this.web3.eth.accounts[0], gas: 65000},
+      function(err, result){
+        if (!err){
+          console.log(result)
+        }
+      }			
+    );
 
+    console.log(event.target)
+    this.props.updateProof(event.target.value)
+  }
 
 	onNoProofFormSubmit(event) {
     event.preventDefault();
@@ -86,7 +100,7 @@ export default class ContractFunctions extends React.Component {
       return (
         <div>
           <InputForm
-            onSubmit={this.props.onProvideProofFormSubmit(this.state.proofInputVal)}
+            onSubmit={this.onProvideProofFormSubmit}
             label="Provide Proof"
             placeholder="Proof"
             value={this.state.proofInputVal}

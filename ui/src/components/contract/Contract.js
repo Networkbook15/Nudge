@@ -27,7 +27,6 @@ export default class Contract extends React.Component {
       redirect:false     
     }
 
-    this.onProvideProofFormSubmit = this.onProvideProofFormSubmit.bind(this);
     this.updateProof = this.updateProof.bind(this)
   }
 
@@ -205,23 +204,12 @@ export default class Contract extends React.Component {
       currentTime: timeNow.toString()
     })
   }
+  
+  
 
-  onProvideProofFormSubmit(event) {
-		event.preventDefault();
-		// user, mod, payout, commitment, duration
-    this.state.ContractInstance.proveCommitment("Proof provided via web3",
-      {from: this.web3.eth.accounts[0], gas: 65000},
-      function(err, result){
-        if (!err){
-          console.log(result)
-        }
-      }			
-    );
-
-    console.log(event.target)
+  updateProof(value){
     this.setState({'proof': value});
   }
-  
 
   render() {
     return (
@@ -229,7 +217,7 @@ export default class Contract extends React.Component {
             <ContractTable state={this.state}/>
             <ContractFunctions ContractInstance={this.state.ContractInstance}
               moderator={this.state.moderator} user={this.state.user} pubKey={this.state.pubKey} proof={this.state.proof}
-              updateProof={this.updateProof} onProvideProofFormSubmit={this.onProvideProofFormSubmit}/>
+              updateProof={this.updateProof}/>
         </div>
     );
   }
